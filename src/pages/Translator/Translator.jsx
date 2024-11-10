@@ -68,10 +68,18 @@ function Translator() {
   };
 
   const handleStartListening = () => {
-    SpeechRecognition.startListening({
-      continuous: true,
-    });
-    setIsListening(true);
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        console.log("Microphone access granted", stream);
+        SpeechRecognition.startListening({
+          continuous: true,
+        });
+        setIsListening(true);
+      })
+      .catch((err) => {
+        console.error("Failed to access microphone:", err);
+      });
   };
 
   const handleStopListening = () => {
