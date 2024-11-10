@@ -1,12 +1,12 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "QuickLator",
+  "name": "QuickLator",
   "manifest_version": 3,
   "version": "1.0",
-  "description": "A simple Hello World Chrome Extension using React.",
+  "description": "Bridging Gaps, Real-time Translations.",
   "action": {
     "default_popup": "index.html",
-    "default_title": "React Chrome Extension"
+    "default_title": "Bridging Gaps, Real-time Translations."
   },
   "permissions": ["storage", "tabs", "activeTab", "cookies"],
   "host_permissions": ["http://localhost", "http://*/*", "https://*/*"],
