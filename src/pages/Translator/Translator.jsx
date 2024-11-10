@@ -28,6 +28,7 @@ function Translator() {
   const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
   const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { getToken } = useAuth();
 
@@ -143,19 +144,26 @@ function Translator() {
     }
   };
 
-  const summarizeMeeting = () => {
-    const finalText = transcript + messageReceived;
-    const summary = TextSummarizer(finalText);
-    setSummaryText(summary);
+  const summarizeMeeting = async () => {
+    try {
+      setIsLoading(true);
+      const finalText = transcript + messageReceived;
+      const summary = await TextSummarizer(finalText);
+      setSummaryText(summary);
+    } catch (error) {
+      openNotification("error", "Error occurred while generating summary.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const saveDetails = async () => {
     try {
       const token = await getToken();
       const payload = {
-        user1_transcript: transcript,
-        user2_transcript: messageReceived,
-        summary: summaryText,
+        user1_transcript: transcript || "",
+        user2_transcript: messageReceived || "",
+        summary: summaryText || "",
       };
       const res = await saveTranscript(payload, token);
       if (res) {
@@ -249,16 +257,23 @@ function Translator() {
       </div>
       <SignedIn>
         <div className="summary my-6">
-          {summaryText.length > 0 ? (
-            <p>{summaryText}</p>
+          {isLoading ? (
+            <aspin />
           ) : (
-            <h1>Summary not available.</h1>
+            <div>
+              {summaryText.length > 0 ? (
+                <p>{summaryText}</p>
+              ) : (
+                <h1>Summary not available.</h1>
+              )}
+            </div>
           )}
         </div>
         <div className="footer-buttons mt-6">
           <div className="flex space-x-4 mb-6">
             <button
               onClick={summarizeMeeting}
+              disabled={isLoading}
               className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
             >
               Summarize
