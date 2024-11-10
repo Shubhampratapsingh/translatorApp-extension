@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  MemoryRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { SignedIn, SignedOut, SignIn } from "@clerk/chrome-extension";
+import Translator from "./pages/Translator/Translator";
+import SignedOutMessage from "./pages/SignedOutMessage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <SignedIn>
+                <Translator />
+              </SignedIn>
+              <SignedOut>
+                <SignedOutMessage />
+              </SignedOut>
+            </>
+          }
+        />
+        <Route path="/translator" element={<Translator />} />
+      </Routes>
+    </Router>
   );
 }
 
