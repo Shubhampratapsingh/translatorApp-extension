@@ -10,6 +10,7 @@ import { API_URL } from "../../constants/api-constants";
 import { saveTranscript } from "../../services";
 import { useAuth, SignedIn } from "@clerk/chrome-extension";
 import { openNotification } from "../../utils/notification";
+import { Spin, Button } from "antd";
 
 const socket = io.connect(API_URL);
 
@@ -258,7 +259,7 @@ function Translator() {
       <SignedIn>
         <div className="summary my-6">
           {isLoading ? (
-            <aspin />
+            <Spin />
           ) : (
             <div>
               {summaryText.length > 0 ? (
@@ -271,13 +272,13 @@ function Translator() {
         </div>
         <div className="footer-buttons mt-6">
           <div className="flex space-x-4 mb-6">
-            <button
+            <Button
               onClick={summarizeMeeting}
               disabled={isLoading}
               className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
             >
               Summarize
-            </button>
+            </Button>
 
             <button
               onClick={saveDetails}
