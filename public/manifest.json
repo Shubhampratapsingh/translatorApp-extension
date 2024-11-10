@@ -9,7 +9,7 @@
     "default_title": "Bridging Gaps, Real-time Translations."
   },
   "permissions": ["storage", "tabs", "activeTab", "cookies"],
-  "host_permissions": ["http://localhost", "http://*/*", "https://*/*"],
+  "host_permissions": ["http://localhost/*", "http://*/*", "https://*/*"],
   "background": {
     "service_worker": "background.js"
   }
